@@ -163,15 +163,15 @@ static token_type_t lex_token_type(parser_t *parser) {
         return TOKEN_NEWLINE;
       }
 
+      case ',': return TOKEN_COMMA;
       case ';': return TOKEN_SEMICOLON;
+      case ':': return TOKEN_COLON;
+      case '?': return TOKEN_QUESTION_MARK;
       case '(': return TOKEN_LEFT_PARENTHESIS;
       case ')': return TOKEN_RIGHT_PARENTHESIS;
       case '[': return TOKEN_LEFT_BRACKET;
       case ']': return TOKEN_RIGHT_BRACKET;
-      case '?': return TOKEN_QUESTION_MARK;
-      case ':': return TOKEN_COLON;
       case '~': return TOKEN_TILDE;
-      case ',': return TOKEN_COMMA;
 
       // = =~ == ===
       case '=':
@@ -715,6 +715,8 @@ parse_rule_t parse_rules[] = {
 #undef RIGHT
 #undef NONE
 
+const char * ripper_event(token_type_t type);
+
 // Loop through every token that the parser produces and output a small
 // descriptive message describing it.
 void tokenize(off_t size, const char *source) {
@@ -727,17 +729,14 @@ void tokenize(off_t size, const char *source) {
   };
 
   for (lex_token(&parser); parser.current.type != TOKEN_EOF; lex_token(&parser)) {
-    printf("%ld-%ld ", parser.current.start - parser.start, parser.current.end - parser.start);
-
-    switch (parser.current.type) {
-      case TOKEN_FALSE: printf("kw"); break;
-      case TOKEN_NIL: printf("kw"); break;
-      case TOKEN_SELF: printf("kw"); break;
-      case TOKEN_TRUE: printf("kw"); break;
-      default: break;
-    }
-
-    printf(" %.*s\n", (int) (parser.current.end - parser.current.start), parser.current.start);
+    printf(
+      "%ld-%ld %s %.*s\n",
+      parser.current.start - parser.start,
+      parser.current.end - parser.start,
+      ripper_event(parser.current.type),
+      (int) (parser.current.end - parser.current.start),
+      parser.current.start
+    );
   }
 }
 
