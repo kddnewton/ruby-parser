@@ -1,9 +1,9 @@
 build/parse: build/libparse.dylib src/cli/*.c
-	cc -o build/parse build/libparse.dylib -Wall -Wextra -Isrc src/cli/*.c
+	cc -o $@ build/libparse.dylib -Wall -Wextra -Isrc src/cli/*.c
 
 build/libparse.dylib: src/*.c src/encoding/*.c src/*.h
 	mkdir -p build
-	cc --shared -o build/libparse.dylib -Wall -Wextra -Isrc src/*.c src/encoding/*.c
+	cc --shared -o $@ -Wall -Wextra -Isrc src/*.c src/encoding/*.c
 
 FORCE:
 

@@ -752,6 +752,8 @@ void parse(off_t size, const char *source, visitor_t *visitor) {
     .encoding = &ascii,
     .context = NULL
   };
+  
+  parse_start = source;
 
   lex_token(&parser);
   parse_list(&parser, CONTEXT_MAIN);

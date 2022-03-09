@@ -99,6 +99,8 @@ typedef struct {
   const char *end;
 } token_t;
 
+const char *parse_start;
+
 typedef struct {
   void *(*array)(token_t *opening, token_t *closing, size_t size);
   void *(*assign)(token_t *operator, void *left, void *right);
@@ -117,6 +119,7 @@ typedef struct {
 } visitor_t;
 
 visitor_t printer;
+visitor_t packer;
 
 void tokenize(off_t, const char *);
 void parse(off_t, const char *, visitor_t *);
