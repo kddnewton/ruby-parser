@@ -1,4 +1,5 @@
 build/parse: src/*.c src/encoding/*.c src/visitor/*.c src/*.h
+	mkdir -p build
 	cc -o build/parse -Wall -Wextra -Isrc src/*.c src/encoding/*.c src/visitor/*.c
 
 FORCE:
