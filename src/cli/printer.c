@@ -2,12 +2,11 @@
 
 #define UNUSED __attribute__((unused))
 
-static void * array(UNUSED token_t *opening, UNUSED token_t *closing, size_t size) {
+static void array(UNUSED token_t *opening, UNUSED token_t *closing, size_t size) {
   printf("ARRAY=%zu\n", size);
-  return NULL;
 }
 
-static void * assign(token_t *operator, UNUSED void *left, UNUSED void *right) {
+static void assign(token_t *operator) {
   switch (operator->type) {
     case TOKEN_AMPERSAND_EQUAL: printf("BITWISE_AND_ASSIGN\n"); break;
     case TOKEN_CARET_EQUAL: printf("BITWISE_XOR_ASSIGN\n"); break;
@@ -25,16 +24,13 @@ static void * assign(token_t *operator, UNUSED void *left, UNUSED void *right) {
     case TOKEN_STAR_EQUAL: printf("MULTIPLY_ASSIGN\n"); break;
     default: printf("???\n"); break;
   }
-
-  return NULL;
 }
 
-static void * begin(UNUSED token_t *opening, UNUSED token_t *closing, UNUSED void *statements) {
+static void begin(UNUSED token_t *opening, UNUSED token_t *closing) {
   printf("BEGIN\n");
-  return NULL;
 }
 
-static void * binary(token_t *operator, UNUSED void *left, UNUSED void *right) {
+static void binary(token_t *operator) {
   switch (operator->type) {
     case TOKEN_AMPERSAND: printf("BITWISE_AND\n"); break;
     case TOKEN_AND: printf("COMPOSITION_AND\n"); break;
@@ -70,36 +66,30 @@ static void * binary(token_t *operator, UNUSED void *left, UNUSED void *right) {
     case TOKEN_WHILE: printf("WHILE_MODIFIER\n"); break;
     default: printf("???\n"); break;
   }
-
-  return NULL;
 }
 
-static void * defined(UNUSED token_t *keyword, UNUSED void *expression) {
+static void defined(UNUSED token_t *keyword) {
   printf("DEFINED\n");
-  return NULL;
 }
 
-static void * group(UNUSED token_t *opening, UNUSED token_t *closing, UNUSED void *expression) {
+static void group(UNUSED token_t *opening, UNUSED token_t *closing) {
   printf("GROUP\n");
-  return NULL;
 }
 
-static void * index_call(UNUSED token_t *opening, UNUSED token_t *closing) {
+static void index_call(UNUSED token_t *opening, UNUSED token_t *closing) {
   printf("INDEX_CALL\n");
-  return NULL;
 }
 
-static void * index_expr(UNUSED token_t *opening, UNUSED token_t *closing, UNUSED void *expression) {
+static void index_expr(UNUSED token_t *opening, UNUSED token_t *closing) {
   printf("INDEX\n");
-  return NULL;
 }
 
-static void * literal(token_t *value) {
+static void literal(token_t *value) {
   switch (value->type) {
-    case TOKEN_FALSE: printf("FALSE\n"); return NULL;
-    case TOKEN_NIL: printf("NIL\n"); return NULL;
-    case TOKEN_SELF: printf("SELF\n"); return NULL;
-    case TOKEN_TRUE: printf("TRUE\n"); return NULL;
+    case TOKEN_FALSE: printf("FALSE\n"); return;
+    case TOKEN_NIL: printf("NIL\n"); return;
+    case TOKEN_SELF: printf("SELF\n"); return;
+    case TOKEN_TRUE: printf("TRUE\n"); return;
 
     case TOKEN_BACK_REFERENCE: printf("BACK_REFERENCE"); break;
     case TOKEN_GLOBAL_VARIABLE: printf("GLOBAL_VARIABLE"); break;
@@ -112,20 +102,17 @@ static void * literal(token_t *value) {
   }
 
   printf("=%.*s\n", (int) (value->end - value->start), value->start);
-  return NULL;
 }
 
-static void * not(UNUSED token_t *keyword, UNUSED void *expression) {
+static void not(UNUSED token_t *keyword) {
   printf("NOT\n");
-  return NULL;
 }
 
-static void * ternary(UNUSED void *predicate, UNUSED void *truthy, UNUSED void *falsy) {
+static void ternary(void) {
   printf("TERNARY\n");
-  return NULL;
 }
 
-static void * unary(token_t *operator, UNUSED void *value) {
+static void unary(token_t *operator) {
   switch (operator->type) {
     case TOKEN_MINUS: printf("UMINUS\n"); break;
     case TOKEN_BANG: printf("UBANG\n"); break;
@@ -135,18 +122,14 @@ static void * unary(token_t *operator, UNUSED void *value) {
     case TOKEN_DOUBLE_DOT: printf("BEGINLESS_RANGE_INCLUSIVE\n"); break;
     default: printf("???\n"); break;
   }
-
-  return NULL;
 }
 
-static void * while_block(UNUSED token_t *keyword, UNUSED void *predicate, UNUSED void *statements) {
+static void while_block(UNUSED token_t *keyword) {
   printf("WHILE\n");
-  return NULL;
 }
 
-static void * until_block(UNUSED token_t *keyword, UNUSED void *predicate, UNUSED void *statements) {
+static void until_block(UNUSED token_t *keyword) {
   printf("UNTIL\n");
-  return NULL;
 }
 
 #undef UNUSED

@@ -467,7 +467,7 @@ static void parse_array(parser_t *parser) {
 static void parse_assign(parser_t *parser) {
   token_t operator = parser->previous;
   parse_precedence(parser, parse_rules[operator.type].right_bind);
-  parser->visitor->assign(&operator, NULL, NULL);
+  parser->visitor->assign(&operator);
 }
 
 // Parses a begin expression (with an optional ensure clause).
@@ -492,7 +492,7 @@ static void parse_begin(parser_t *parser) {
 
   consume(parser, "Expected 'end' after the begin block.", TOKEN_END);
   token_t closing = parser->previous;
-  parser->visitor->begin(&opening, &closing, NULL);
+  parser->visitor->begin(&opening, &closing);
 }
 
 // Parses a binary expression.
@@ -502,7 +502,7 @@ static void parse_begin(parser_t *parser) {
 static void parse_binary(parser_t *parser) {
   token_t operator = parser->previous;
   parse_precedence(parser, parse_rules[operator.type].right_bind);
-  parser->visitor->binary(&operator, NULL, NULL);
+  parser->visitor->binary(&operator);
 }
 
 // Parses a defined? expression.
@@ -519,7 +519,7 @@ static void parse_defined(parser_t *parser) {
     parse_expression(parser);
   }
 
-  parser->visitor->defined(&keyword, NULL);
+  parser->visitor->defined(&keyword);
 }
 
 // Parses a grouped expression.
@@ -533,7 +533,7 @@ static void parse_grouping(parser_t *parser) {
   consume(parser, "Expected ')' after expression.", TOKEN_RIGHT_PARENTHESIS);
 
   token_t closing = parser->previous;
-  parser->visitor->group(&opening, &closing, NULL);
+  parser->visitor->group(&opening, &closing);
 }
 
 // Parses an index expression (with or without an inner expression).
@@ -552,7 +552,7 @@ static void parse_index(parser_t *parser) {
     consume(parser, "Expected ']' after expression.", TOKEN_RIGHT_BRACKET);
 
     token_t closing = parser->previous;
-    parser->visitor->index_expr(&opening, &closing, NULL);
+    parser->visitor->index_expr(&opening, &closing);
   }
 }
 
@@ -585,9 +585,9 @@ static void parse_loop(parser_t *parser) {
   parse_list(parser, CONTEXT_LOOP);
 
   if (token.type == TOKEN_WHILE) {
-    parser->visitor->while_block(&token, NULL, NULL);
+    parser->visitor->while_block(&token);
   } else {
-    parser->visitor->until_block(&token, NULL, NULL);
+    parser->visitor->until_block(&token);
   }
 }
 
@@ -605,7 +605,7 @@ static void parse_not(parser_t *parser) {
     parse_expression(parser);
   }
 
-  parser->visitor->not(&keyword, NULL);
+  parser->visitor->not(&keyword);
 }
 
 // Parses a ternary expression.
@@ -619,7 +619,7 @@ static void parse_ternary(parser_t *parser) {
   consume(parser, "Expected ':' after expression.", TOKEN_COLON);
 
   parse_precedence(parser, right_bind);
-  parser->visitor->ternary(NULL, NULL, NULL);
+  parser->visitor->ternary();
 }
 
 // Parses a unary expression.
@@ -629,7 +629,7 @@ static void parse_ternary(parser_t *parser) {
 static void parse_unary(parser_t *parser) {
   token_t operator = parser->previous;
   parse_precedence(parser, PRECEDENCE_UNARY);
-  parser->visitor->unary(&operator, NULL);
+  parser->visitor->unary(&operator);
 }
 
 // These macros define associativity by defining binding power for the left and right side of the token

@@ -100,20 +100,20 @@ typedef struct {
 } token_t;
 
 typedef struct {
-  void *(*array)(token_t *opening, token_t *closing, size_t size);
-  void *(*assign)(token_t *operator, void *left, void *right);
-  void *(*begin)(token_t *opening, token_t *closing, void *statements);
-  void *(*binary)(token_t *operator, void *left, void *right);
-  void *(*defined)(token_t *keyword, void *expression);
-  void *(*group)(token_t *opening, token_t *closing, void *expression);
-  void *(*index_call)(token_t *opening, token_t *closing);
-  void *(*index_expr)(token_t *opening, token_t *closing, void *expression);
-  void *(*literal)(token_t *value);
-  void *(*not)(token_t *keyword, void *expression);
-  void *(*ternary)(void *predicate, void *truthy, void *falsey);
-  void *(*unary)(token_t *operator, void *value);
-  void *(*until_block)(token_t *keyword, void *predicate, void *statements);
-  void *(*while_block)(token_t *keyword, void *predicate, void *statements);
+  void (*array)(token_t *opening, token_t *closing, size_t size);
+  void (*assign)(token_t *operator);
+  void (*begin)(token_t *opening, token_t *closing);
+  void (*binary)(token_t *operator);
+  void (*defined)(token_t *keyword);
+  void (*group)(token_t *opening, token_t *closing);
+  void (*index_call)(token_t *opening, token_t *closing);
+  void (*index_expr)(token_t *opening, token_t *closing);
+  void (*literal)(token_t *value);
+  void (*not)(token_t *keyword);
+  void (*ternary)(void);
+  void (*unary)(token_t *operator);
+  void (*until_block)(token_t *keyword);
+  void (*while_block)(token_t *keyword);
 } visitor_t;
 
 visitor_t printer;
